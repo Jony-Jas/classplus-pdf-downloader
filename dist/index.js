@@ -19,12 +19,14 @@ const chalk_1 = __importDefault(require("chalk"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     let data;
     const arg = process.argv;
-    if (arg.length !== 4) {
+    if (arg.length !== 6) {
         console.log(chalk_1.default.red("\nPlease provide the link and token :("));
         process.exit(1);
     }
     const url = arg[2];
     const token = arg[3];
+    const start = +arg[4];
+    const end = +arg[5];
     try {
         data = yield (0, fetchData_1.default)(url, token);
     }
@@ -34,7 +36,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     }
     console.log(chalk_1.default.bgWhite.black(` Total files to download: ${data.length} `));
     const processItems = (data) => __awaiter(void 0, void 0, void 0, function* () {
-        for (let i = 0; i < data.length; i++) {
+        for (let i = start - 1; i <= Math.min(end - 1, data.length - 1); i++) {
             const item = data[i];
             console.log(`\n (${i + 1}/${data.length}) - ${item.name}`);
             const downloadPath = path_1.default.join(__dirname, "../downloads");
